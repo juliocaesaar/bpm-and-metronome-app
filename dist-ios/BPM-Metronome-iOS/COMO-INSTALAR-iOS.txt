@@ -1,0 +1,37 @@
+BPM Metronome App - iOS PWA 
+ 
+COMO INSTALAR NO iOS: 
+ 
+1. ABRIR NO SAFARI: 
+   - Abra o Safari no iPhone/iPad 
+   - Navegue ate o arquivo index.html 
+ 
+2. ADICIONAR A TELA INICIAL: 
+   - Toque no botao de compartilhar (quadrado com seta) 
+   - Selecione "Adicionar a Tela Inicial" 
+   - Confirme o nome e icone 
+ 
+3. USAR COMO APP NATIVO: 
+   - O app aparecera na tela inicial 
+   - Funciona offline apos primeiro acesso 
+   - Tem icone proprio e nome personalizado 
+ 
+FUNCIONALIDADES: 
+- Calculadora de BPM 
+- Metronome com diferentes sons 
+- Pads ambientais 
+- Repertorios para organizar musicas 
+- Importar/Exportar repertorios 
+ 
+VANTAGENS: 
+- Funciona offline (sem internet) 
+- Nao precisa instalar da App Store 
+- Funciona como app nativo 
+- Dados salvos localmente 
+- Atualizacoes automaticas 
+ 
+OBSERVACOES: 
+- So funciona no Safari (iOS) 
+- Primeiro acesso precisa de internet 
+- Apos instalado, funciona offline 
+- Dados ficam salvos no dispositivo 

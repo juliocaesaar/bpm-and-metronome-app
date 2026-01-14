@@ -1,0 +1,19 @@
+BPM Metronome App - Versao Offline 
+ 
+COMO USAR: 
+1. Abra o arquivo 'index.html' no seu navegador 
+2. O aplicativo funcionara offline 
+3. Todos os recursos estao incluidos 
+ 
+FUNCIONALIDADES: 
+- Calculadora de BPM 
+- Metronome com diferentes sons 
+- Pads ambientais 
+- Repertorios para organizar musicas 
+- Importar/Exportar repertorios 
+ 
+VANTAGENS: 
+- Funciona offline (sem internet) 
+- Nao precisa instalar nada 
+- Funciona em qualquer navegador 
+- Dados salvos localmente 

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste de Sessões</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .button { padding: 10px 20px; margin: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .button:hover { background: #0056b3; }
+        .sessions-container { border: 1px solid #ccc; padding: 10px; margin: 10px 0; min-height: 100px; }
+        .session-item { padding: 10px; border: 1px solid #ddd; margin: 5px 0; cursor: pointer; }
+        .session-item:hover { background: #f0f0f0; }
+        .session-item.selected { background: #007bff; color: white; }
+        .loading { text-align: center; color: #666; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Teste de Lista de Sessões</h1>
+        
+        <button class="button" onclick="connectToServer()">Conectar ao Servidor</button>
+        <button class="button" onclick="createTestSession()">Criar Sessão de Teste</button>
+        <button class="button" onclick="refreshSessions()">Atualizar Lista</button>
+        
+        <div id="status">Desconectado</div>
+        
+        <h3>Sessões Disponíveis:</h3>
+        <div id="sessions-container" class="sessions-container">
+            <div class="loading">Clique em "Conectar ao Servidor" para começar</div>
+        </div>
+        
+        <div id="selected-session"></div>
+    </div>
+
+    <script>
+        let ws = null;
+        let selectedSessionId = null;
+
+        function connectToServer() {
+            const status = document.getElementById('status');
+            status.textContent = 'Conectando...';
+            
+            ws = new WebSocket('ws://localhost:3000');
+            
+            ws.onopen = function() {
+                status.textContent = 'Conectado';
+                console.log('Conectado ao servidor');
+            };
+            
+            ws.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                console.log('Mensagem recebida:', data);
+                
+                if (data.type === 'sessions_list') {
+                    handleSessionsList(data);
+                }
+            };
+            
+            ws.onclose = function() {
+                status.textContent = 'Desconectado';
+                console.log('Conexão fechada');
+            };
+            
+            ws.onerror = function(error) {
+                status.textContent = 'Erro de conexão';
+                console.error('Erro:', error);
+            };
+        }
+
+        function createTestSession() {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                alert('Conecte ao servidor primeiro');
+                return;
+            }
+            
+            ws.send(JSON.stringify({
+                type: 'create_session',
+                hostName: 'Teste ' + Date.now()
+            }));
+        }
+
+        function refreshSessions() {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                alert('Conecte ao servidor primeiro');
+                return;
+            }
+            
+            const container = document.getElementById('sessions-container');
+            container.innerHTML = '<div class="loading">Carregando sessões...</div>';
+            
+            ws.send(JSON.stringify({
+                type: 'get_sessions'
+            }));
+        }
+
+        function handleSessionsList(data) {
+            console.log('Lista de sessões recebida:', data.sessions);
+            const container = document.getElementById('sessions-container');
+            
+            if (!data.sessions || data.sessions.length === 0) {
+                container.innerHTML = '<div class="loading">Nenhuma sessão encontrada</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            data.sessions.forEach(session => {
+                const sessionItem = document.createElement('div');
+                sessionItem.className = 'session-item';
+                sessionItem.onclick = () => selectSession(session.id, sessionItem);
+                
+                sessionItem.innerHTML = `
+                    <strong>${session.name}</strong><br>
+                    <small>👥 ${session.clientCount} dispositivo(s) | 🕒 ${new Date(session.createdAt).toLocaleTimeString()}</small>
+                `;
+                
+                container.appendChild(sessionItem);
+            });
+        }
+
+        function selectSession(sessionId, element) {
+            // Remover seleção anterior
+            document.querySelectorAll('.session-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Selecionar nova sessão
+            element.classList.add('selected');
+            selectedSessionId = sessionId;
+            
+            document.getElementById('selected-session').innerHTML = 
+                `<strong>Sessão selecionada:</strong> ${sessionId}`;
+            
+            console.log('Sessão selecionada:', sessionId);
+        }
+    </script>
+</body>
+</html>

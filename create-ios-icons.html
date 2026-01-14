@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create iOS Icons for BPM Metronome App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .icon-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .icon-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+        .icon-display {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 auto 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .icon-size {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .icon-name {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+        .instructions {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .step {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+        }
+        .code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .download-btn {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        .download-btn:hover {
+            background: #5a67d8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 BPM Metronome App - iOS Icons</h1>
+        
+        <div class="instructions">
+            <strong>📱 Para iOS PWA:</strong><br>
+            Estes ícones são necessários para que o app funcione como um aplicativo nativo no iOS.
+        </div>
+
+        <h2>🎨 Preview dos Ícones</h2>
+        <div class="icon-preview">
+            <div class="icon-item">
+                <div class="icon-display" style="width: 72px; height: 72px; font-size: 20px;">♪</div>
+                <div class="icon-size">72x72px</div>
+                <div class="icon-name">icon-72x72.png</div>
+            </div>
+            <div class="icon-item">
+                <div class="icon-display" style="width: 96px; height: 96px; font-size: 24px;">♪</div>
+                <div class="icon-size">96x96px</div>
+                <div class="icon-name">icon-96x96.png</div>
+            </div>
+            <div class="icon-item">
+                <div class="icon-display" style="width: 128px; height: 128px; font-size: 32px;">♪</div>
+                <div class="icon-size">128x128px</div>
+                <div class="icon-name">icon-128x128.png</div>
+            </div>
+            <div class="icon-item">
+                <div class="icon-display" style="width: 144px; height: 144px; font-size: 36px;">♪</div>
+                <div class="icon-size">144x144px</div>
+                <div class="icon-name">icon-144x144.png</div>
+            </div>
+            <div class="icon-item">
+                <div class="icon-display" style="width: 152px; height: 152px; font-size: 38px;">♪</div>
+                <div class="icon-size">152x152px</div>
+                <div class="icon-name">icon-152x152.png</div>
+            </div>
+            <div class="icon-item">
+                <div class="icon-display" style="width: 192px; height: 192px; font-size: 48px;">♪</div>
+                <div class="icon-size">192x192px</div>
+                <div class="icon-name">icon-192x192.png</div>
+            </div>
+            <div class="icon-item">
+                <div class="icon-display" style="width: 384px; height: 384px; font-size: 96px;">♪</div>
+                <div class="icon-size">384x384px</div>
+                <div class="icon-name">icon-384x384.png</div>
+            </div>
+            <div class="icon-item">
+                <div class="icon-display" style="width: 512px; height: 512px; font-size: 128px;">♪</div>
+                <div class="icon-size">512x512px</div>
+                <div class="icon-name">icon-512x512.png</div>
+            </div>
+        </div>
+
+        <h2>📥 Como Criar os Ícones</h2>
+        
+        <div class="step">
+            <strong>Método 1: Gerador Online (Recomendado)</strong><br>
+            1. Acesse: <a href="https://realfavicongenerator.net/" target="_blank">RealFaviconGenerator</a><br>
+            2. Faça upload de uma imagem 512x512px<br>
+            3. Configure as opções para PWA<br>
+            4. Baixe o pacote completo
+        </div>
+
+        <div class="step">
+            <strong>Método 2: Photoshop/GIMP</strong><br>
+            1. Crie uma imagem 512x512px<br>
+            2. Use o gradiente: #667eea → #764ba2<br>
+            3. Adicione o símbolo ♪ em branco<br>
+            4. Redimensione para cada tamanho necessário
+        </div>
+
+        <div class="step">
+            <strong>Método 3: Gerador Automático</strong><br>
+            1. Use: <a href="https://www.favicon-generator.org/" target="_blank">Favicon Generator</a><br>
+            2. Faça upload de uma imagem<br>
+            3. Baixe todos os tamanhos
+        </div>
+
+        <h2>📁 Estrutura de Pastas</h2>
+        <div class="code">
+📁 icons/
+├── 📄 icon-72x72.png
+├── 📄 icon-96x96.png
+├── 📄 icon-128x128.png
+├── 📄 icon-144x144.png
+├── 📄 icon-152x152.png
+├── 📄 icon-192x192.png
+├── 📄 icon-384x384.png
+└── 📄 icon-512x512.png
+        </div>
+
+        <h2>🎯 Especificações Técnicas</h2>
+        <div class="step">
+            <strong>Formato:</strong> PNG com transparência<br>
+            <strong>Cor de fundo:</strong> Gradiente #667eea → #764ba2<br>
+            <strong>Símbolo:</strong> ♪ em branco, centralizado<br>
+            <strong>Bordas:</strong> Arredondadas (15-20% do tamanho)<br>
+            <strong>Qualidade:</strong> Alta resolução, sem compressão
+        </div>
+
+        <h2>📱 Como Instalar no iOS</h2>
+        <div class="step">
+            <strong>1. Acesse o app no Safari:</strong><br>
+            - Abra o Safari no iPhone/iPad<br>
+            - Navegue até o app
+        </div>
+
+        <div class="step">
+            <strong>2. Adicione à Tela Inicial:</strong><br>
+            - Toque no botão de compartilhar (□↑)<br>
+            - Selecione "Adicionar à Tela Inicial"<br>
+            - Confirme o nome e ícone
+        </div>
+
+        <div class="step">
+            <strong>3. Use como App Nativo:</strong><br>
+            - O app aparecerá na tela inicial<br>
+            - Funciona offline após primeiro acesso<br>
+            - Tem ícone próprio e nome personalizado
+        </div>
+
+        <div class="instructions">
+            <strong>💡 Dica:</strong><br>
+            Após criar os ícones, execute o script <code>build-ios.bat</code> para gerar a versão iOS completa.
+        </div>
+    </div>
+
+    <script>
+        // Generate icon download links
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        
+        function createIcon(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            
+            // Draw background
+            ctx.fillStyle = gradient;
+            ctx.roundRect(0, 0, size, size, size * 0.15);
+            ctx.fill();
+            
+            // Draw note symbol
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.3}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('♪', size / 2, size / 2);
+            
+            return canvas.toDataURL('image/png');
+        }
+        
+        // Add download functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const iconItems = document.querySelectorAll('.icon-item');
+            iconItems.forEach((item, index) => {
+                const size = sizes[index];
+                const downloadBtn = document.createElement('button');
+                downloadBtn.className = 'download-btn';
+                downloadBtn.textContent = 'Download';
+                downloadBtn.onclick = function() {
+                    const dataUrl = createIcon(size);
+                    const link = document.createElement('a');
+                    link.download = `icon-${size}x${size}.png`;
+                    link.href = dataUrl;
+                    link.click();
+                };
+                item.appendChild(downloadBtn);
+            });
+        });
+    </script>
+</body>
+</html>

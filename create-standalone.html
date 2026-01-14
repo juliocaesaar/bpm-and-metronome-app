@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BPM Metronome App - Standalone</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .step {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+        }
+        .code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 BPM Metronome App - Versão Standalone</h1>
+        
+        <div class="warning">
+            <strong>⚠️ Problema com Electron:</strong><br>
+            O build do Electron falhou devido a permissões do Windows. 
+            Aqui estão 3 alternativas para distribuir seu aplicativo:
+        </div>
+
+        <h2>🚀 Opção 1: Versão Web Offline (Mais Simples)</h2>
+        <div class="step">
+            <strong>1. Criar arquivo único:</strong><br>
+            - Copie todos os arquivos para uma pasta<br>
+            - Abra o <code>index.html</code> diretamente no navegador<br>
+            - Funciona offline (sem servidor)
+        </div>
+        
+        <div class="step">
+            <strong>2. Distribuir:</strong><br>
+            - Compacte a pasta em ZIP<br>
+            - Envie para os usuários<br>
+            - Eles extraem e abrem o <code>index.html</code>
+        </div>
+
+        <h2>🖥️ Opção 2: Electron Portable (Requer Admin)</h2>
+        <div class="step">
+            <strong>1. Executar como Administrador:</strong><br>
+            - Clique com botão direito no <code>build-portable.bat</code><br>
+            - Selecione "Executar como administrador"<br>
+            - Isso deve resolver o problema de permissões
+        </div>
+
+        <h2>📦 Opção 3: Distribuição com Node.js</h2>
+        <div class="step">
+            <strong>1. Usar build simples:</strong><br>
+            - Execute <code>build-simple.bat</code><br>
+            - Cria uma pasta com todos os arquivos<br>
+            - Usuários precisam ter Node.js instalado
+        </div>
+
+        <div class="step">
+            <strong>2. Instruções para usuários:</strong><br>
+            <div class="code">
+                1. Instalar Node.js (https://nodejs.org/)<br>
+                2. Extrair a pasta<br>
+                3. Abrir terminal na pasta<br>
+                4. Executar: npm install<br>
+                5. Executar: npm start
+            </div>
+        </div>
+
+        <h2>🎯 Recomendação</h2>
+        <div class="success">
+            <strong>✅ Para máxima compatibilidade:</strong><br>
+            Use a <strong>Opção 1 (Versão Web Offline)</strong><br>
+            - Funciona em qualquer computador<br>
+            - Não precisa instalar nada<br>
+            - Abre direto no navegador<br>
+            - Funciona offline
+        </div>
+
+        <h2>📁 Arquivos Necessários</h2>
+        <div class="step">
+            <strong>Para distribuição offline:</strong><br>
+            <div class="code">
+                📁 BPM-Metronome-App/<br>
+                ├── 📄 index.html<br>
+                ├── 📄 app-v4.js<br>
+                ├── 📄 styles-v4.css<br>
+                ├── 📁 ambiences/ (todos os .wav)<br>
+                └── 📁 metronomes/ (todos os .wav)
+            </div>
+        </div>
+
+        <h2>🔧 Solução Rápida</h2>
+        <div class="step">
+            <strong>Execute este comando no PowerShell como Administrador:</strong><br>
+            <div class="code">
+                Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+            </div>
+            <br>
+            Depois execute novamente o <code>build.bat</code>
+        </div>
+    </div>
+</body>
+</html>

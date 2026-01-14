@@ -1,0 +1,79 @@
+========================================
+   BPM METRONOME APP - COMO USAR
+========================================
+
+🎵 APLICATIVO DESKTOP OFFLINE
+Este é um aplicativo que funciona no seu computador,
+sem precisar de internet!
+
+📁 ARQUIVOS INCLUÍDOS:
+- index.html (interface principal)
+- app-v4.js (lógica do aplicativo)
+- styles-v4.css (visual e cores)
+- main.js (configuração do Electron)
+- package.json (dependências)
+- ambiences/ (sons dos pads)
+- metronomes/ (sons do metronome)
+
+🚀 COMO CRIAR O EXECUTÁVEL:
+
+1. INSTALAR NODE.JS:
+   - Baixe de: https://nodejs.org/
+   - Instale normalmente
+   - Reinicie o computador
+
+2. INSTALAR DEPENDÊNCIAS:
+   - Execute: install.bat
+   - Ou manualmente: npm install
+
+3. TESTAR O APLICATIVO:
+   - Execute: npm start
+   - O aplicativo deve abrir
+
+4. CRIAR EXECUTÁVEL:
+   - Execute: build.bat
+   - Ou manualmente: npm run build-win
+   - O arquivo .exe estará na pasta "dist"
+
+5. DISTRIBUIR:
+   - Envie apenas o arquivo .exe
+   - O usuário pode executar diretamente
+
+⌨️ ATALHOS DE TECLADO:
+- Espaço: Play/Pause Metronome
+- Ctrl+Espaço: Play All
+- T: Tap BPM
+- R: Reset BPM
+- Ctrl+N: Novo Repertório
+- Ctrl+M: Adicionar Música
+- Ctrl+→: Próximo Preset
+- Ctrl+←: Preset Anterior
+
+🔧 SOLUÇÃO DE PROBLEMAS:
+
+❌ "npm não é reconhecido":
+   - Instale o Node.js
+   - Reinicie o terminal
+
+❌ "Failed to install dependencies":
+   - Verifique a internet
+   - Execute como administrador
+
+❌ Aplicativo não abre:
+   - Execute como administrador
+   - Verifique o antivírus
+
+✅ VANTAGENS:
+- Funciona offline
+- Mais rápido que web
+- Controles nativos
+- Fácil distribuição
+- Dados salvos localmente
+
+📞 SUPORTE:
+Se tiver problemas, verifique:
+1. Se seguiu todos os passos
+2. Se o Node.js está instalado
+3. Se executou como administrador
+
+========================================

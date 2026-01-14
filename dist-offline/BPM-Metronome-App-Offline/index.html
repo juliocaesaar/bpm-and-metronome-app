@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles-v4.css">
+    <title>BPM & Metronome App</title>
+  </head>
+  <body>
+    <div class="main-cards">
+      <div class="container text-center">
+        
+        <div class="combined-controls">
+            <!-- BPM Section -->
+            <div class="bpm-section">
+                <div class="bpm-display">
+                    <span id="bpm-output" class="bpm-number">120</span>
+                    <span class="bpm-label">BPM</span>
+                </div>
+                
+                <div class="bpm-controls">
+                    <button class="button" onclick="calcBPM()">TAP</button>
+                    <button class="button secondary" onclick="resetBPM()">RESET</button>
+                </div>
+                
+                <div class="manual-bpm-controls">
+                    <button class="bpm-btn" onclick="decreaseBPM()">-</button>
+                    <span class="bpm-manual-label">Manual BPM</span>
+                    <button class="bpm-btn" onclick="increaseBPM()">+</button>
+                </div>
+            </div>
+            
+            <!-- Metronome Section -->
+            <div class="metronome-section">
+                <div class="metronome-controls">
+                    <div class="master-controls">
+                        <button class="button master-play" id="master-play-btn" onclick="toggleMasterPlay()">▶ PLAY ALL</button>
+                    </div>
+                    
+                    <div class="sound-selector">
+                        <label for="sound-type">Sound Type:</label>
+                        <select id="sound-type" class="select">
+                            <option value="ASRX">ASRX</option>
+                            <option value="3000">3000</option>
+                            <option value="SP1200">SP1200</option>
+                            <option value="Zoom ST">Zoom ST</option>
+                        </select>
+                    </div>
+                    
+                    <div class="time-signature">
+                        <label for="time-signature">Time Signature:</label>
+                        <select id="time-signature" class="select">
+                            <option value="1/4">1/4 (Simple)</option>
+                            <option value="4/4" selected>4/4 (With Downbeat)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="volume-control">
+                        <label for="metronome-volume">Metronome Volume:</label>
+                        <input type="range" id="metronome-volume" min="0" max="100" value="50" class="volume-slider" oninput="setMetronomeVolume(this.value)">
+                        <span class="volume-value" id="metronome-volume-value">50%</span>
+                    </div>
+                    
+                    
+                    <div class="metronome-buttons">
+                        <button class="button primary" id="play-pause-btn" onclick="toggleMetronome()">▶ Play</button>
+                        <button class="button secondary" onclick="stopMetronome()">⏹ Stop</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+      </div>
+      
+      <!-- Volume Monitor Card -->
+      <div class="volume-monitor-card">
+        <div class="monitor-grid">
+            <!-- Left Channel (Ambient) -->
+            <div class="monitor-channel">
+                <div class="channel-label">L</div>
+                <div class="volume-meter">
+                    <div class="volume-bar" id="ambient-volume-bar"></div>
+                    <div class="volume-threshold" id="ambient-volume-threshold"></div>
+                </div>
+                <div class="volume-info">
+                    <span id="ambient-volume-level">0 dB</span>
+                    <span id="ambient-clipping-warning" class="clipping-warning hidden">⚠</span>
+                </div>
+            </div>
+            
+            <!-- Right Channel (Metronome) -->
+            <div class="monitor-channel">
+                <div class="channel-label">R</div>
+                <div class="volume-meter">
+                    <div class="volume-bar" id="metronome-volume-bar"></div>
+                    <div class="volume-threshold" id="metronome-volume-threshold"></div>
+                </div>
+                <div class="volume-info">
+                    <span id="metronome-volume-level">0 dB</span>
+                    <span id="metronome-clipping-warning" class="clipping-warning hidden">⚠</span>
+                </div>
+            </div>
+        </div>
+      </div>
+      
+      <div class="container text-center">
+        <div class="volume-control">
+            <label for="ambient-volume">Ambient Volume:</label>
+            <input type="range" id="ambient-volume" min="0" max="100" value="50" class="volume-slider" oninput="setAmbientVolume(this.value)">
+            <span class="volume-value" id="ambient-volume-value">50%</span>
+        </div>
+        
+        <div class="pads-container">
+            <div class="pads-grid">
+                <button class="pad" data-key="C" onclick="playAmbient('C')">C</button>
+                <button class="pad" data-key="C#" onclick="playAmbient('C#')">C#</button>
+                <button class="pad" data-key="D" onclick="playAmbient('D')">D</button>
+                <button class="pad" data-key="D#" onclick="playAmbient('D#')">D#</button>
+                <button class="pad" data-key="E" onclick="playAmbient('E')">E</button>
+                <button class="pad" data-key="F" onclick="playAmbient('F')">F</button>
+                <button class="pad" data-key="F#" onclick="playAmbient('F#')">F#</button>
+                <button class="pad" data-key="G" onclick="playAmbient('G')">G</button>
+                <button class="pad" data-key="G#" onclick="playAmbient('G#')">G#</button>
+                <button class="pad" data-key="A" onclick="playAmbient('A')">A</button>
+                <button class="pad" data-key="A#" onclick="playAmbient('A#')">A#</button>
+                <button class="pad" data-key="B" onclick="playAmbient('B')">B</button>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Repertório Card -->
+    <div class="container repertorio-card">
+        
+        <!-- Tabs de Repertórios -->
+        <div class="repertorio-tabs" id="repertorio-tabs">
+            <!-- Tabs serão carregadas aqui dinamicamente -->
+        </div>
+        
+        <!-- Conteúdo do Repertório Ativo -->
+        <div class="repertorio-content">
+            <div class="repertorio-list" id="repertorio-list">
+                <!-- Presets serão carregados aqui dinamicamente -->
+            </div>
+            
+            <!-- Modo Ao Vivo (sempre ativo) -->
+            <div class="live-mode" id="live-mode">
+                <button class="btn-live prev" onclick="previousPreset()" title="Preset anterior">◀ ANTERIOR</button>
+                <div class="current-preset" id="current-preset-display">Nenhum preset ativo</div>
+                <button class="btn-live next" onclick="nextPreset()" title="Próximo preset">PRÓXIMA ▶</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para Adicionar Música -->
+    <div class="modal-overlay" id="add-music-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Adicionar Nova Música</h3>
+                <button class="modal-close" onclick="closeAddMusicModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="music-name">Nome da Música:</label>
+                    <input type="text" id="music-name" placeholder="Ex: Música 1" maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label for="music-bpm">BPM:</label>
+                    <input type="number" id="music-bpm" placeholder="120" min="40" max="300" value="120">
+                </div>
+                <div class="form-group">
+                    <label>Pad Ambiental:</label>
+                    <div class="modal-pads-grid">
+                        <button class="modal-pad" data-key="Nenhum" onclick="selectModalPad('Nenhum')">Nenhum</button>
+                        <button class="modal-pad" data-key="C" onclick="selectModalPad('C')">C</button>
+                        <button class="modal-pad" data-key="C#" onclick="selectModalPad('C#')">C#</button>
+                        <button class="modal-pad" data-key="D" onclick="selectModalPad('D')">D</button>
+                        <button class="modal-pad" data-key="D#" onclick="selectModalPad('D#')">D#</button>
+                        <button class="modal-pad" data-key="E" onclick="selectModalPad('E')">E</button>
+                        <button class="modal-pad" data-key="F" onclick="selectModalPad('F')">F</button>
+                        <button class="modal-pad" data-key="F#" onclick="selectModalPad('F#')">F#</button>
+                        <button class="modal-pad" data-key="G" onclick="selectModalPad('G')">G</button>
+                        <button class="modal-pad" data-key="G#" onclick="selectModalPad('G#')">G#</button>
+                        <button class="modal-pad" data-key="A" onclick="selectModalPad('A')">A</button>
+                        <button class="modal-pad" data-key="A#" onclick="selectModalPad('A#')">A#</button>
+                        <button class="modal-pad" data-key="B" onclick="selectModalPad('B')">B</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="use-current-settings" onchange="toggleCurrentSettings()"> Usar configurações atuais (BPM: <span id="current-bpm-display">120</span>, Pad: <span id="current-pad-display">Nenhum</span>)
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeAddMusicModal()">Cancelar</button>
+                <button class="btn-save" onclick="saveMusicFromModal()">Salvar Música</button>
+            </div>
+        </div>
+    </div>
+  </body>
+    <script src="app-v4.js"></script>
+</html>

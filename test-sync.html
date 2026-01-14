@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste de Sincronização - BPM Metronome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fafafa;
+        }
+        .test-section {
+            background: #2a2a2a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 1px solid #444;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success { background: #10b981; color: white; }
+        .error { background: #ef4444; color: white; }
+        .warning { background: #f59e0b; color: black; }
+        .info { background: #3b82f6; color: white; }
+        button {
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #7c3aed; }
+        .log {
+            background: #000;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Teste de Sincronização - BPM Metronome</h1>
+    
+    <div class="test-section">
+        <h2>📡 Status da Conexão</h2>
+        <div id="connection-status" class="status info">Desconectado</div>
+        <button onclick="testConnection()">Testar Conexão</button>
+        <button onclick="clearLog()">Limpar Log</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>🎯 Teste de Sessão</h2>
+        <div id="session-status" class="status info">Nenhuma sessão ativa</div>
+        <button onclick="createTestSession()">Criar Sessão de Teste</button>
+        <button onclick="joinTestSession()">Entrar em Sessão de Teste</button>
+        <button onclick="leaveSession()">Sair da Sessão</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>🎵 Teste de Áudio</h2>
+        <div id="audio-status" class="status info">Áudio não testado</div>
+        <button onclick="testAudio()">Testar Áudio</button>
+        <button onclick="testMetronome()">Testar Metrônomo</button>
+        <button onclick="testAmbient()">Testar Pad Ambiental</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>📊 Log de Eventos</h2>
+        <div id="event-log" class="log">Aguardando eventos...\n</div>
+    </div>
+    
+    <script>
+        let ws = null;
+        let sessionId = null;
+        let clientId = null;
+        let isHost = false;
+        let isInSession = false;
+        
+        function log(message) {
+            const logElement = document.getElementById('event-log');
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.textContent += `[${timestamp}] ${message}\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+        
+        function clearLog() {
+            document.getElementById('event-log').textContent = 'Log limpo...\n';
+        }
+        
+        function updateStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `status ${type}`;
+        }
+        
+        function testConnection() {
+            log('Testando conexão com servidor...');
+            updateStatus('connection-status', 'Conectando...', 'warning');
+            
+            try {
+                ws = new WebSocket('ws://localhost:3000');
+                
+                ws.onopen = function() {
+                    log('✅ Conectado ao servidor WebSocket');
+                    updateStatus('connection-status', 'Conectado', 'success');
+                };
+                
+                ws.onmessage = function(event) {
+                    try {
+                        const data = JSON.parse(event.data);
+                        log(`📨 Mensagem recebida: ${data.type}`);
+                        handleMessage(data);
+                    } catch (error) {
+                        log(`❌ Erro ao processar mensagem: ${error.message}`);
+                    }
+                };
+                
+                ws.onclose = function() {
+                    log('🔌 Conexão fechada');
+                    updateStatus('connection-status', 'Desconectado', 'error');
+                };
+                
+                ws.onerror = function(error) {
+                    log(`❌ Erro na conexão: ${error}`);
+                    updateStatus('connection-status', 'Erro de conexão', 'error');
+                };
+                
+            } catch (error) {
+                log(`❌ Erro ao conectar: ${error.message}`);
+                updateStatus('connection-status', 'Erro de conexão', 'error');
+            }
+        }
+        
+        function handleMessage(data) {
+            switch (data.type) {
+                case 'session_created':
+                    sessionId = data.sessionId;
+                    clientId = data.clientId;
+                    isHost = data.isHost;
+                    isInSession = true;
+                    log(`✅ Sessão criada: ${sessionId}`);
+                    updateStatus('session-status', `Host da sessão: ${sessionId}`, 'success');
+                    break;
+                    
+                case 'session_joined':
+                    sessionId = data.sessionId;
+                    clientId = data.clientId;
+                    isHost = data.isHost;
+                    isInSession = true;
+                    log(`✅ Entrou na sessão: ${sessionId}`);
+                    updateStatus('session-status', `Participante da sessão: ${sessionId}`, 'success');
+                    break;
+                    
+                case 'state_update':
+                    log(`🔄 Estado atualizado: ${JSON.stringify(data.state)}`);
+                    break;
+                    
+                case 'client_joined':
+                    log(`👤 Cliente entrou: ${data.client.name}`);
+                    break;
+                    
+                case 'client_left':
+                    log(`👋 Cliente saiu: ${data.clientName}`);
+                    break;
+                    
+                case 'error':
+                    log(`❌ Erro: ${data.message}`);
+                    break;
+                    
+                default:
+                    log(`❓ Mensagem desconhecida: ${data.type}`);
+            }
+        }
+        
+        function createTestSession() {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                log('❌ Não conectado ao servidor');
+                return;
+            }
+            
+            log('🎯 Criando sessão de teste...');
+            ws.send(JSON.stringify({
+                type: 'create_session',
+                hostName: 'Teste Host'
+            }));
+        }
+        
+        function joinTestSession() {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                log('❌ Não conectado ao servidor');
+                return;
+            }
+            
+            const testSessionId = prompt('Digite o código da sessão:');
+            if (!testSessionId) return;
+            
+            log(`🔗 Entrando na sessão: ${testSessionId}`);
+            ws.send(JSON.stringify({
+                type: 'join_session',
+                sessionId: testSessionId,
+                clientName: 'Teste Cliente'
+            }));
+        }
+        
+        function leaveSession() {
+            if (!ws || ws.readyState !== WebSocket.OPEN || !isInSession) {
+                log('❌ Não há sessão ativa');
+                return;
+            }
+            
+            log('🚪 Saindo da sessão...');
+            ws.send(JSON.stringify({
+                type: 'leave_session'
+            }));
+            
+            sessionId = null;
+            clientId = null;
+            isHost = false;
+            isInSession = false;
+            updateStatus('session-status', 'Nenhuma sessão ativa', 'info');
+        }
+        
+        function testAudio() {
+            log('🎵 Testando áudio...');
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.5);
+                
+                log('✅ Teste de áudio concluído');
+                updateStatus('audio-status', 'Áudio funcionando', 'success');
+            } catch (error) {
+                log(`❌ Erro no teste de áudio: ${error.message}`);
+                updateStatus('audio-status', 'Erro no áudio', 'error');
+            }
+        }
+        
+        function testMetronome() {
+            if (!isInSession) {
+                log('❌ Não há sessão ativa para testar metrônomo');
+                return;
+            }
+            
+            log('🥁 Testando sincronização do metrônomo...');
+            ws.send(JSON.stringify({
+                type: 'state_update',
+                state: { isPlaying: true }
+            }));
+            
+            setTimeout(() => {
+                ws.send(JSON.stringify({
+                    type: 'state_update',
+                    state: { isPlaying: false }
+                }));
+                log('✅ Teste de metrônomo concluído');
+            }, 2000);
+        }
+        
+        function testAmbient() {
+            if (!isInSession) {
+                log('❌ Não há sessão ativa para testar pad ambiental');
+                return;
+            }
+            
+            log('🎹 Testando sincronização do pad ambiental...');
+            ws.send(JSON.stringify({
+                type: 'state_update',
+                state: { currentAmbientKey: 'C' }
+            }));
+            
+            setTimeout(() => {
+                ws.send(JSON.stringify({
+                    type: 'state_update',
+                    state: { currentAmbientKey: null }
+                }));
+                log('✅ Teste de pad ambiental concluído');
+            }, 2000);
+        }
+        
+        // Inicializar teste automático
+        window.addEventListener('load', function() {
+            log('🚀 Página de teste carregada');
+            log('💡 Clique em "Testar Conexão" para começar');
+        });
+    </script>
+</body>
+</html>

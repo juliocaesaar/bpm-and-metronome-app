@@ -1,0 +1,12 @@
+# Ignore audio files for deployment
+ambiences/
+metronomes/
+*.wav
+*.mp3
+*.m4a
+*.ogg
+
+# Ignore development files
+.git/
+node_modules/
+*.log
